@@ -20,12 +20,13 @@ def execute_sql(sql, values=(), commit=False, single=False):
     cursor.close()
     return results
 
+app = Flask(__name__)
+@app.teardown_appcontext
 def close_connection(exception):
     connection = getattr(g, '_connection', None)
     if connection is not None:
         connection.close()
         
-app = Flask(__name__)
 @app.route('/')
 @app.route('/jobs')
 
